@@ -20,7 +20,6 @@ from data_preprocessing import HousingDataPreprocessor
 # Page configuration
 st.set_page_config(
     page_title="Amsterdam Housing Predictor",
-    page_icon="🏠",
     layout="wide"
 )
 
@@ -48,7 +47,7 @@ def main():
     """Main app function"""
 
     # Header
-    st.title("🏠 Amsterdam Student Housing Price Predictor")
+    st.title("Amsterdam Student Housing Price Predictor")
     st.markdown("---")
 
     # Sidebar - About
@@ -67,8 +66,8 @@ def main():
         """)
 
         st.markdown("---")
-        st.write("📊 **Data Source:** Sample data + Real market insights")
-        st.write("🤖 **Built with:** Python, scikit-learn, Streamlit")
+        st.write("**Data Source:** Sample data + Real market insights")
+        st.write("**Built with:** Python, scikit-learn, Streamlit")
 
     # Main content - Two columns
     col1, col2 = st.columns([1, 1])
@@ -154,16 +153,16 @@ def main():
                 percentage = (difference / avg_for_location) * 100
 
                 if difference > 0:
-                    st.write(f"🔴 €{difference:.2f} ({percentage:.1f}%) above area average")
+                    st.write(f"€{difference:.2f} ({percentage:.1f}%) above area average")
                 else:
-                    st.write(f"🟢 €{abs(difference):.2f} ({abs(percentage):.1f}%) below area average")
+                    st.write(f"€{abs(difference):.2f} ({abs(percentage):.1f}%) below area average")
 
                 # Confidence interval (rough estimate)
                 st.write("---")
                 st.write("**Confidence Range:**")
                 lower = predicted_price * 0.9
                 upper = predicted_price * 1.1
-                st.write(f"📊 €{lower:.2f} - €{upper:.2f}")
+                st.write(f"€{lower:.2f} - €{upper:.2f}")
 
         # Show example data
         st.write("---")
@@ -180,7 +179,7 @@ def main():
 
     # Footer - Statistics
     st.markdown("---")
-    st.header("📊 Model Performance")
+    st.header("Model Performance")
 
     col1, col2, col3 = st.columns(3)
 

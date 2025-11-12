@@ -77,13 +77,13 @@ def interactive_demo():
     Interactive command-line demo.
     """
     print("=" * 70)
-    print("🏠 AMSTERDAM STUDENT HOUSING PRICE PREDICTOR")
+    print("AMSTERDAM STUDENT HOUSING PRICE PREDICTOR")
     print("=" * 70)
     print("\nAI-powered price predictions using Random Forest (R² = 0.946)")
     print("\n" + "-" * 70)
 
     # Get user inputs
-    print("\n📍 PROPERTY DETAILS:")
+    print("\nPROPERTY DETAILS:")
 
     # Location
     print("\nLocation options:")
@@ -125,7 +125,7 @@ def interactive_demo():
 
     # Make prediction
     print("\n" + "-" * 70)
-    print("🤖 ANALYZING WITH AI...")
+    print("ANALYZING WITH AI...")
     print("-" * 70)
 
     predicted_price = predict_price(
@@ -135,7 +135,7 @@ def interactive_demo():
     if predicted_price:
         # Display results
         print("\n" + "=" * 70)
-        print("💰 PREDICTED MONTHLY RENT")
+        print("PREDICTED MONTHLY RENT")
         print("=" * 70)
         print(f"\n   €{predicted_price:.2f} per month")
         print()
@@ -153,7 +153,7 @@ def interactive_demo():
         difference = predicted_price - avg_for_location
         percentage = (difference / avg_for_location) * 100
 
-        print("\n📊 MARKET COMPARISON:")
+        print("\nMARKET COMPARISON:")
         if difference > 0:
             print(f"   🔴 €{difference:.2f} ({percentage:.1f}%) above area average")
         else:
@@ -162,7 +162,7 @@ def interactive_demo():
         # Confidence range
         lower = predicted_price * 0.9
         upper = predicted_price * 1.1
-        print(f"\n📈 CONFIDENCE RANGE:")
+        print(f"\nCONFIDENCE RANGE:")
         print(f"   €{lower:.2f} - €{upper:.2f}")
 
         print("\n" + "=" * 70)
@@ -176,8 +176,8 @@ def interactive_demo():
         print("\n\n")
         interactive_demo()
     else:
-        print("\n👋 Thanks for using the Amsterdam Housing Price Predictor!")
-        print("🌐 Check out the full web app: streamlit run app.py")
+        print("\nThanks for using the Amsterdam Housing Price Predictor!")
+        print("Check out the full web app: streamlit run app.py")
         print()
 
 
@@ -186,7 +186,7 @@ def quick_demo():
     Quick demo with example properties.
     """
     print("=" * 70)
-    print("🏠 AMSTERDAM HOUSING PREDICTOR - QUICK DEMO")
+    print("AMSTERDAM HOUSING PREDICTOR - QUICK DEMO")
     print("=" * 70)
 
     examples = [
@@ -232,7 +232,7 @@ def quick_demo():
         )
 
         if price:
-            print(f"   💰 Predicted price: €{price:.2f}/month")
+            print(f"   Predicted price: €{price:.2f}/month")
 
     print("\n" + "=" * 70)
     print()

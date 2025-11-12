@@ -25,10 +25,10 @@ def load_cbs_data():
         if response.status_code == 200:
             data = response.json()
             df = pd.DataFrame(data['value'])
-            print(f"✅ Loaded {len(df)} records from CBS")
+            print(f"Loaded {len(df)} records from CBS")
             return df
         else:
-            print(f"❌ Failed to load CBS data: {response.status_code}")
+            print(f"Failed to load CBS data: {response.status_code}")
             return None
     except Exception as e:
         print(f"Error: {e}")
@@ -62,7 +62,7 @@ def load_kaggle_dataset():
     """
     Instructions for loading Kaggle datasets.
     """
-    print("\n📦 KAGGLE DATASETS:")
+    print("\nKAGGLE DATASETS:")
     print("=" * 60)
     print("1. Go to: https://www.kaggle.com/datasets")
     print("2. Search: 'Amsterdam housing' or 'Netherlands rental'")
@@ -136,8 +136,8 @@ def create_example_real_data():
     filename = 'data/raw/realistic_amsterdam_housing.csv'
     df.to_csv(filename, index=False)
 
-    print(f"✅ Created realistic dataset: {filename}")
-    print(f"📊 Total listings: {len(df)}")
+    print(f"Created realistic dataset: {filename}")
+    print(f"Total listings: {len(df)}")
     print(f"💰 Price range: €{df['price'].min():.0f} - €{df['price'].max():.0f}")
     print(f"📏 Size range: {df['size'].min()}m² - {df['size'].max()}m²")
 
@@ -152,22 +152,22 @@ def main():
     print("PUBLIC HOUSING DATA LOADER")
     print("=" * 70)
 
-    print("\n🌐 OPTION 1: Official APIs (100% Legal)")
+    print("\nOPTION 1: Official APIs (100% Legal)")
     print("-" * 70)
     # load_cbs_data()
 
-    print("\n🏛️ OPTION 2: Open Data Portals")
+    print("\nOPTION 2: Open Data Portals")
     print("-" * 70)
     # load_amsterdam_open_data()
 
-    print("\n📦 OPTION 3: Kaggle Datasets")
+    print("\nOPTION 3: Kaggle Datasets")
     print("-" * 70)
     load_kaggle_dataset()
 
-    print("\n🏠 OPTION 4: Create Realistic Sample (For Testing)")
+    print("\nOPTION 4: Create Realistic Sample (For Testing)")
     print("-" * 70)
     df = create_example_real_data()
-    print("\n✅ You can now use this data with your ML pipeline!")
+    print("\nYou can now use this data with your ML pipeline!")
     print("   Run: python run_analysis.py")
 
 

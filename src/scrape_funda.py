@@ -1,11 +1,9 @@
 """
-Funda Real Estate Scraper (Educational/Portfolio Use Only)
+Funda Real Estate Scraper
 
-DISCLAIMER:
-- This is for educational purposes and portfolio projects only
-- Always check website's robots.txt and terms of service
-- Add delays between requests to be respectful
-- Do not use for commercial purposes without permission
+Web scraper template for collecting Amsterdam housing data from Funda.
+Includes respectful scraping practices (delays, robots.txt compliance).
+For educational and research purposes.
 """
 
 import requests
@@ -17,13 +15,9 @@ import random
 
 class FundaScraper:
     """
-    Scrapes rental listings from Funda for Amsterdam student housing.
+    Scraper for Funda rental listings.
 
-    USAGE GUIDELINES:
-    - Use for personal learning/portfolio only
-    - Add delays between requests (respectful scraping)
-    - Check robots.txt before scraping
-    - Don't overwhelm the server
+    Implements rate limiting and respectful scraping practices.
     """
 
     def __init__(self):
@@ -44,8 +38,7 @@ class FundaScraper:
         Returns:
             pd.DataFrame: Scraped listings
         """
-        print(f"🏠 Starting to scrape Funda listings for {city}...")
-        print("⚠️  Remember: This is for educational use only!\n")
+        print(f"Starting to scrape Funda listings for {city}...")
 
         for page in range(1, max_pages + 1):
             url = f"{self.base_url}/huur/{city}/p{page}/"
@@ -71,18 +64,18 @@ class FundaScraper:
                             if data:
                                 self.listings.append(data)
                         except Exception as e:
-                            print(f"⚠️  Error parsing listing: {e}")
+                            print(f"Error parsing listing: {e}")
                             continue
 
-                    print(f"✅ Page {page}: Found {len(listings)} listings")
+                    print(f"Page {page}: Found {len(listings)} listings")
                 else:
-                    print(f"❌ Failed to fetch page {page} (Status: {response.status_code})")
+                    print(f"Failed to fetch page {page} (Status: {response.status_code})")
 
             except Exception as e:
-                print(f"❌ Error on page {page}: {e}")
+                print(f"Error on page {page}: {e}")
                 continue
 
-        print(f"\n🎉 Scraping complete! Total listings: {len(self.listings)}")
+        print(f"\nScraping complete! Total listings: {len(self.listings)}")
         return pd.DataFrame(self.listings)
 
     def _extract_listing_data(self, listing):
@@ -153,11 +146,11 @@ class FundaScraper:
         if self.listings:
             df = pd.DataFrame(self.listings)
             df.to_csv(filename, index=False)
-            print(f"\n💾 Data saved to: {filename}")
-            print(f"📊 Total records: {len(df)}")
+            print(f"\nData saved to: {filename}")
+            print(f"Total records: {len(df)}")
             return df
         else:
-            print("❌ No data to save!")
+            print("No data to save!")
             return None
 
 
@@ -204,7 +197,7 @@ def main():
     print("Educational/Portfolio Use Only")
     print("=" * 70)
 
-    print("\n📋 IMPORTANT NOTES:")
+    print("\nIMPORTANT NOTES:")
     print("1. This scraper is for EDUCATIONAL purposes only")
     print("2. Always respect website's robots.txt and ToS")
     print("3. Use appropriate delays between requests")
@@ -216,7 +209,7 @@ def main():
     scraper = FundaScraper()
 
     # Note: This is a template - selectors need updating based on current site
-    print("\n⚠️  WARNING: HTML selectors in this script are EXAMPLES only!")
+    print("\nWARNING: HTML selectors in this script are EXAMPLES only!")
     print("You need to inspect Funda's current website and update the selectors.")
     print("Use browser DevTools (F12) to find the correct CSS classes.\n")
 
@@ -233,7 +226,7 @@ def main():
     # api_client = FundaAPIClient(api_key="YOUR_API_KEY_HERE")
     # df = api_client.get_listings(city="amsterdam")
 
-    print("\n💡 NEXT STEPS:")
+    print("\nNEXT STEPS:")
     print("1. Register for Funda Partner API (recommended)")
     print("2. OR manually inspect Funda website and update CSS selectors")
     print("3. Run scraper with small page count first (test)")
