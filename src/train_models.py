@@ -176,7 +176,7 @@ class HousingPriceModels:
         print(comparison_df.to_string(index=False))
 
         best_model = comparison_df.iloc[0]['Model']
-        print(f"\n🏆 Best Model: {best_model}")
+        print(f"\nBest Model: {best_model}")
 
     def plot_predictions(self, y_test, save_path=None):
         """
