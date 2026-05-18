@@ -1,156 +1,96 @@
 # Amsterdam Student Housing Price Predictor
 
-Machine learning models to predict rental prices for student housing in Amsterdam.
+Machine-learning models that predict student-rental prices in Amsterdam from location, size, room type, distance to UvA, and amenities. Random Forest beat Linear Regression and Decision Tree on a held-out test set.
 
-## Overview
-
-This project builds predictive models to estimate Amsterdam student housing rental prices based on location, size, amenities, and distance to University of Amsterdam (UvA). Three regression models were compared: Linear Regression, Decision Tree, and Random Forest.
-
-**Tech Stack:** Python, pandas, scikit-learn, matplotlib, seaborn
-
-## Model Performance
-
-| Model | R² Score | RMSE | Status |
-|-------|----------|------|--------|
-| Random Forest | 0.946 | €59.33 | Best |
+| Model | R² (test) | RMSE | Notes |
+|---|---|---|---|
+| **Random Forest** | **0.946** | **€59.33** | Best |
 | Decision Tree | 0.875 | €90.55 | Good |
 | Linear Regression | 0.785 | €118.88 | Baseline |
 
-The Random Forest model achieved the highest accuracy with an R² of 0.946 and average prediction error of €59.33.
+Training set: 799 apartments · test set: 200 apartments · minimal overfitting (train R²=0.970, test R²=0.946).
 
-## Project Structure
+> Built by [Daniel Puri](https://github.com/danielpuri1901) — applied AI engineer based in Amsterdam. See [my profile](https://github.com/danielpuri1901) for related work on multi-agent systems, Gurobi optimization, and the open-source [`optimaze-agent`](https://github.com/danielpuri1901/optimaze-agent) project.
+
+**Stack:** Python · pandas · scikit-learn · matplotlib · seaborn · Streamlit
+
+## Features used
+
+Location · size (m²) · room type (studio / shared / private) · distance to UvA (km) · furnished · registration possible · engineered features (price per m², distance category, size category).
+
+**Feature importance (Random Forest):** location 30% · size 25% · distance to UvA 20% · room type 15% · other 10%.
+
+## Project layout
 
 ```
 amsterdam-housing-predictor/
 ├── data/
 │   ├── raw/                    # Original data
 │   └── processed/              # Cleaned data ready for training
-├── models/                     # Saved trained models (.pkl files)
+├── models/                     # Saved trained models (.pkl)
 ├── notebooks/                  # Jupyter analysis notebooks
 ├── src/
-│   ├── data_preprocessing.py   # Data cleaning and feature engineering
-│   ├── train_models.py         # Model training and evaluation
-│   ├── utils.py                # Helper functions
-│   ├── scrape_funda.py         # Web scraper for Funda data
+│   ├── data_preprocessing.py   # Cleaning + feature engineering
+│   ├── train_models.py         # Training + evaluation
+│   ├── utils.py
+│   ├── scrape_funda.py         # Funda scraper
 │   └── load_public_data.py     # Public dataset integration
-├── demo.py                     # Command-line demo
+├── demo.py                     # CLI demo
 ├── app.py                      # Streamlit web interface
-└── run_analysis.py             # Full pipeline execution
+└── run_analysis.py             # Full pipeline
 ```
 
-## Features
-
-The models use these input features:
-- Location (neighborhood/district)
-- Size (square meters)
-- Room type (studio, shared, private room)
-- Distance to UvA (kilometers)
-- Furnished (yes/no)
-- Registration possible (yes/no)
-- Engineered features (price per m², distance category, size category)
-
-## Installation
+## Run it
 
 ```bash
 git clone https://github.com/danielpuri1901/amsterdam-housing-predictor.git
 cd amsterdam-housing-predictor
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Usage
-
-### Quick Demo
-
+### CLI demo
 ```bash
 python demo.py
 ```
 
-Runs an interactive command-line interface where you can input apartment details and get price predictions.
-
-### Full Analysis Pipeline
-
+### Full pipeline (load → preprocess → train → evaluate → save)
 ```bash
 python run_analysis.py
 ```
 
-Executes the complete pipeline: data loading, preprocessing, model training, evaluation, and saves results.
-
-### Jupyter Notebook
-
-```bash
-jupyter notebook notebooks/housing_analysis.ipynb
-```
-
-Interactive analysis with visualizations and detailed model comparisons.
-
-### Web Application
-
+### Streamlit web app
 ```bash
 streamlit run app.py
 ```
 
-Launches a web interface for the price predictor (requires Streamlit installation).
+## Data sources
 
-## Data Sources
-
-Sample data was generated based on Amsterdam housing market characteristics. For production use, data can be sourced from:
-- Funda API (official real estate data)
-- Kamernet (student housing listings)
+Sample data was generated from Amsterdam market characteristics. For production use the same pipeline can ingest:
+- Funda API (real estate)
+- Kamernet (student housing)
 - CBS Open Data (Statistics Netherlands)
 - Amsterdam Open Data portal
 
-## Model Implementation
+## Method
 
-**Random Forest (Best Performer)**
-- 100 decision trees
-- Max depth: 15
-- Min samples split: 10
+- Outlier removal via IQR
+- Label encoding for categoricals
+- Engineered features (price per m², distance/size buckets)
+- 80/20 train/test split
+- `StandardScaler` normalization
 - 5-fold cross-validation
-- RMSE: €59.33
+- Model persistence via `joblib`
 
-**Feature Importance**
-1. Location (30%)
-2. Size (25%)
-3. Distance to UvA (20%)
-4. Room type (15%)
-5. Other features (10%)
+**Random Forest hyperparameters:** 100 trees · max depth 15 · min samples split 10.
 
-## Results
+Prediction and residual plots are written to the project root (`predictions_comparison.png`, `residuals_comparison.png`).
 
-Training set: 799 apartments
-Test set: 200 apartments
+## See also
 
-The Random Forest model shows strong generalization with minimal overfitting (training R²: 0.970, test R²: 0.946).
-
-Prediction visualizations and residual plots are generated in the project root:
-- `predictions_comparison.png`
-- `residuals_comparison.png`
-
-## Technical Details
-
-**Data Preprocessing**
-- Outlier removal using IQR method
-- Label encoding for categorical variables
-- Feature engineering (derived metrics)
-- Train/test split (80/20)
-- StandardScaler normalization
-
-**Model Training**
-- Hyperparameters tuned for optimal performance
-- Cross-validation for robust evaluation
-- Model persistence using joblib
-
-## Future Enhancements
-
-- Integration with real-time Funda/Kamernet APIs
-- Hyperparameter optimization (GridSearchCV)
-- Additional models (XGBoost, neural networks)
-- Time-series analysis for price trends
-- Deployment to cloud platform
-- Mobile application
+- [`TECHNICAL_NOTES.md`](TECHNICAL_NOTES.md) — implementation details
+- [`USAGE.md`](USAGE.md) — extended usage guide
 
 ## License
 
-MIT License
+MIT.
