@@ -2,13 +2,20 @@
 
 Machine-learning models that predict student-rental prices in Amsterdam from location, size, room type, distance to UvA, and amenities. Random Forest beat Linear Regression and Decision Tree on a held-out test set.
 
+## Accomplishments
+
+- **R² = 0.946** on held-out test set (Random Forest) — best of three models compared
+- **RMSE €59.33** — **50% lower prediction error** than the Linear Regression baseline (€118.88)
+- Strong generalization: train R² 0.970 → test R² 0.946 (minimal overfitting)
+- End-to-end pipeline: data ingest → preprocessing → training → evaluation → CLI demo → Streamlit web app
+
 | Model | R² (test) | RMSE | Notes |
 |---|---|---|---|
 | **Random Forest** | **0.946** | **€59.33** | Best |
 | Decision Tree | 0.875 | €90.55 | Good |
 | Linear Regression | 0.785 | €118.88 | Baseline |
 
-Training set: 799 apartments · test set: 200 apartments · minimal overfitting (train R²=0.970, test R²=0.946).
+Training set: 799 apartments · test set: 200 apartments.
 
 > Built by [Daniel Puri](https://github.com/danielpuri1901) — applied AI engineer based in Amsterdam. See [my profile](https://github.com/danielpuri1901) for related work on multi-agent systems, Gurobi optimization, and the open-source [`optimaze-agent`](https://github.com/danielpuri1901/optimaze-agent) project.
 
