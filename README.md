@@ -1,103 +1,59 @@
-# Amsterdam Student Housing Price Predictor
+# Amsterdam housing predictor
 
-Machine-learning models that predict student-rental prices in Amsterdam from location, size, room type, distance to UvA, and amenities. Random Forest beat Linear Regression and Decision Tree on a held-out test set.
+An educational regression project using generated sample data for student housing in Amsterdam.
+It compares linear regression, a decision tree, and a random forest.
 
-## Accomplishments
+The sample data does not represent observed housing transactions.
+The project is not a validated rental-price service.
 
-- **R² = 0.946** on held-out test set (Random Forest) — best of three models compared
-- **RMSE €59.33** — **50% lower prediction error** than the Linear Regression baseline (€118.88)
-- Strong generalization: train R² 0.970 → test R² 0.946 (minimal overfitting)
-- End-to-end pipeline: data ingest → preprocessing → training → evaluation → CLI demo → Streamlit web app
+## Evaluation limit
 
-| Model | R² (test) | RMSE | Notes |
-|---|---|---|---|
-| **Random Forest** | **0.946** | **€59.33** | Best |
-| Decision Tree | 0.875 | €90.55 | Good |
-| Linear Regression | 0.785 | €118.88 | Baseline |
+The current analysis creates `price_per_sqm` from the target price before selecting model inputs.
+The input selection removes `price` but retains `price_per_sqm`.
+The model therefore receives information derived from the value it must predict.
+This is target leakage.
 
-Training set: 799 apartments · test set: 200 apartments.
+The earlier README reported R² 0.946 and RMSE EUR 59.33.
+Those historical scores cannot establish prediction quality for unseen housing prices.
+The feature path needs correction and the evaluation needs a fresh run before those scores can be used.
 
-> Built by [Daniel Puri](https://github.com/danielpuri1901) — applied AI engineer based in Amsterdam. See [my profile](https://github.com/danielpuri1901) for related work on multi-agent systems, Gurobi optimization, and the open-source [`optimaze-agent`](https://github.com/danielpuri1901/optimaze-agent) project.
+## Files
 
-**Stack:** Python · pandas · scikit-learn · matplotlib · seaborn · Streamlit
+| Path | Purpose |
+| --- | --- |
+| `data/` | Raw and processed sample data. |
+| `src/data_preprocessing.py` | Cleaning and feature preparation. |
+| `src/train_models.py` | Model training and evaluation. |
+| `run_analysis.py` | Runs the analysis pipeline. |
+| `demo.py` | Provides a command-line demonstration. |
+| `app.py` | Provides a Streamlit interface. |
+| `notebooks/` | Contains the analysis notebook. |
 
-## Features used
-
-Location · size (m²) · room type (studio / shared / private) · distance to UvA (km) · furnished · registration possible · engineered features (price per m², distance category, size category).
-
-**Feature importance (Random Forest):** location 30% · size 25% · distance to UvA 20% · room type 15% · other 10%.
-
-## Project layout
-
-```
-amsterdam-housing-predictor/
-├── data/
-│   ├── raw/                    # Original data
-│   └── processed/              # Cleaned data ready for training
-├── models/                     # Saved trained models (.pkl)
-├── notebooks/                  # Jupyter analysis notebooks
-├── src/
-│   ├── data_preprocessing.py   # Cleaning + feature engineering
-│   ├── train_models.py         # Training + evaluation
-│   ├── utils.py
-│   ├── scrape_funda.py         # Funda scraper
-│   └── load_public_data.py     # Public dataset integration
-├── demo.py                     # CLI demo
-├── app.py                      # Streamlit web interface
-└── run_analysis.py             # Full pipeline
-```
-
-## Run it
+## Local setup
 
 ```bash
-git clone https://github.com/danielpuri1901/amsterdam-housing-predictor.git
-cd amsterdam-housing-predictor
-python -m venv venv && source venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### CLI demo
+## Run the existing demonstration
+
 ```bash
 python demo.py
 ```
 
-### Full pipeline (load → preprocess → train → evaluate → save)
+The full pipeline writes processed data, trained models, and plots:
+
 ```bash
 python run_analysis.py
 ```
 
-### Streamlit web app
+The Streamlit interface starts with:
+
 ```bash
 streamlit run app.py
 ```
 
-## Data sources
-
-Sample data was generated from Amsterdam market characteristics. For production use the same pipeline can ingest:
-- Funda API (real estate)
-- Kamernet (student housing)
-- CBS Open Data (Statistics Netherlands)
-- Amsterdam Open Data portal
-
-## Method
-
-- Outlier removal via IQR
-- Label encoding for categoricals
-- Engineered features (price per m², distance/size buckets)
-- 80/20 train/test split
-- `StandardScaler` normalization
-- 5-fold cross-validation
-- Model persistence via `joblib`
-
-**Random Forest hyperparameters:** 100 trees · max depth 15 · min samples split 10.
-
-Prediction and residual plots are written to the project root (`predictions_comparison.png`, `residuals_comparison.png`).
-
-## See also
-
-- [`TECHNICAL_NOTES.md`](TECHNICAL_NOTES.md) — implementation details
-- [`USAGE.md`](USAGE.md) — extended usage guide
-
-## License
-
-MIT.
+These routes run the current implementation, including the evaluation limit described above.
+See [`TECHNICAL_NOTES.md`](TECHNICAL_NOTES.md) and [`USAGE.md`](USAGE.md) for earlier project notes.
